@@ -107,7 +107,7 @@ touch ${linux_profile}
     echo '# GoLang'
     echo "export GOROOT=${GOROOT}"
     echo 'export PATH=$GOROOT/bin:$PATH'
-    echo "export GOPATH=$GOPATH"
+    echo 'export GOPATH=$HOME/go'
     echo 'export PATH=$GOPATH/bin:$PATH'
 } >> ${linux_profile}
 chmod a+r ${linux_profile}
