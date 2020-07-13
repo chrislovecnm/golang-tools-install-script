@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-VERSION="1.14"
+VERSION="1.14.2"
 
-[ -z "$GOROOT" ] && GOROOT="$HOME/.go"
+[ -z "$GOROOT" ] && GOROOT="/usr/local/go"
 [ -z "$GOPATH" ] && GOPATH="$HOME/go"
 
 OS="$(uname -s)"
