@@ -102,14 +102,14 @@ fi
 echo "Extracting File..."
 mkdir -p "$GOROOT"
 tar -C "$GOROOT" --strip-components=1 -xzf "$TEMP_DIRECTORY/go.tar.gz"
-touch "$HOME/.${shell_profile}"
+touch "/etc/profile.d/go.sh"
 {
     echo '# GoLang'
     echo "export GOROOT=${GOROOT}"
     echo 'export PATH=$GOROOT/bin:$PATH'
     echo "export GOPATH=$GOPATH"
     echo 'export PATH=$GOPATH/bin:$PATH'
-} >> "$HOME/.${shell_profile}"
+} >> "/etc/profile.d/go.sh"
 
 mkdir -p $GOPATH/{src,pkg,bin}
 echo -e "\nGo $VERSION was installed into $GOROOT.\nMake sure to relogin into your shell or run:"
