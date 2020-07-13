@@ -48,6 +48,8 @@ elif [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
     shell_profile="bashrc"
 fi
 
+linux_profile="/etc/profile.d/go.sh"
+
 if [ "$1" == "--remove" ]; then
     rm -rf "$GOROOT"
     if [ "$OS" == "Darwin" ]; then
@@ -57,11 +59,7 @@ if [ "$1" == "--remove" ]; then
         sed -i "" '/export GOPATH/d' "$HOME/.${shell_profile}"
         sed -i "" '/$GOPATH\/bin/d' "$HOME/.${shell_profile}"
     else
-        sed -i '/# GoLang/d' "$HOME/.${shell_profile}"
-        sed -i '/export GOROOT/d' "$HOME/.${shell_profile}"
-        sed -i '/$GOROOT\/bin/d' "$HOME/.${shell_profile}"
-        sed -i '/export GOPATH/d' "$HOME/.${shell_profile}"
-        sed -i '/$GOPATH\/bin/d' "$HOME/.${shell_profile}"
+	rm ${linux_profile}
     fi
     echo "Go removed."
     exit 0
@@ -102,17 +100,18 @@ fi
 echo "Extracting File..."
 mkdir -p "$GOROOT"
 tar -C "$GOROOT" --strip-components=1 -xzf "$TEMP_DIRECTORY/go.tar.gz"
-touch "/etc/profile.d/go.sh"
+
+# TODO fix this so this works with linux and darwin
+touch ${linux_profile}
 {
     echo '# GoLang'
     echo "export GOROOT=${GOROOT}"
     echo 'export PATH=$GOROOT/bin:$PATH'
     echo "export GOPATH=$GOPATH"
     echo 'export PATH=$GOPATH/bin:$PATH'
-} >> "/etc/profile.d/go.sh"
+} >> ${linux_profile}
+chmod a+r ${linux_profile}
 
-mkdir -p $GOPATH/{src,pkg,bin}
-echo -e "\nGo $VERSION was installed into $GOROOT.\nMake sure to relogin into your shell or run:"
-echo -e "\n\tsource $HOME/.${shell_profile}\n\nto update your environment variables."
-echo "Tip: Opening a new terminal window usually just works. :)"
 rm -f "$TEMP_DIRECTORY/go.tar.gz"
+
+echo -e "\nGo $VERSION was installed into $GOROOT."
